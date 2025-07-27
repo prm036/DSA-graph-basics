@@ -1,0 +1,34 @@
+#include <iostream>
+#include <vector>
+#include <set>
+#include <utility>
+
+using namespace std;
+
+const int INF = 1e9;
+
+vector<int> dijkstra_set(int n, vector<vector<pair<int, int>>> &adj, int src) {
+    vector<int> dist(n, INF);
+    dist[src] = 0;
+
+    set<pair<int, int>> s;
+    s.insert({0, src});
+
+    while (!s.empty()) {
+        auto [d, u] = *s.begin();
+        s.erase(s.begin());
+
+        for (auto &[v, weight] : adj[u]) {
+            if (dist[u] + weight < dist[v]) {
+                // If old distance exists, remove it
+                if (dist[v] != INF) {
+                    s.erase({dist[v], v});
+                }
+
+                dist[v] = dist[u] + weight;
+                s.insert({dist[v], v});
+            }
+        }
+    }
+    return dist;
+}
