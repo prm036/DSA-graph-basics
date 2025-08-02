@@ -14,3 +14,10 @@ bool dfs(int u, vector<bool>& visited, vector<vector<int>>& adj, int v, vector<i
     path.pop_back();  // backtrack if path not found
     return false;
 }
+
+// Note on why     `if (u == v) return true` shouldn' be placed inside `if (!visited[x]) {`
+// 0 → 1 → 4  
+//  \       ↑  
+//   → 2 → 3 
+// If 4 is visited from a different path and appears again, your modified version skips checking it again because visited[4] == true, even though you're at a node directly pointing to it.
+
